@@ -105,7 +105,7 @@ Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview 
 
 ## Postcardware
 
-You're free to use this package ~~(it's MIT-licensed)~~, but if it makes it to your production environment you are required to send us a postcard from your hometown, mentioning which of our package(s) you are using.
+You're free to use this package ~~(it's MIT-licensed)~~You're free to use this package (it's [MIT-licensed](LICENSE.md)), but if it makes it to your production environment we highly appreciated you sending us a postcard from your hometown, mentioning which of our package(s) you are using.
 
 Our address is: Spatie, Samberstraat 69D, 2060 Antwerp, Belgium.
 
@@ -114,7 +114,7 @@ The best postcards will get published on the open source page on our website.
 ## Documentation
 You'll find the documentation on [https://docs.spatie.be/laravel-activitylog/v1](https://docs.spatie.be/laravel-activitylog/v1).
 
-Find yourself stuck using the package? Found a bug? Do you have general questions or suggestions for improving the media library? Feel free to [create an issue on GitHub](https://github.com/spatie/laravel-medialibrary/issues), we'll try to address it as soon as possible.
+Find yourself stuck using the package? Found a bug? Do you have general questions or suggestions for improving the activity log? Feel free to [create an issue on GitHub](https://github.com/spatie/laravel-activitylog/issues), we'll try to address it as soon as possible.
 
 If you've found a bug regarding security please mail [freek@spatie.be](mailto:freek@spatie.be) instead of using the issue tracker.
 
@@ -215,7 +215,7 @@ If you discover any security related issues, please email freek@spatie.be instea
 ## Credits
 
 - [Freek Van der Herten](https://github.com/freekmurze)
-- [Sebastian De Deyne](https://github.com/sebdedeyne)
+- [Sebastian De Deyne](https://github.com/sebastiandedeyne)
 - [All Contributors](../../contributors)
 
 ## About Spatie

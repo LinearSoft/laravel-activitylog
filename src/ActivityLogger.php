@@ -3,11 +3,11 @@
 namespace Spatie\Activitylog;
 
 use Illuminate\Auth\AuthManager;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Traits\Macroable;
-use Spatie\Activitylog\Exceptions\CouldNotLogActivity;
 use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Traits\Macroable;
+use Illuminate\Contracts\Config\Repository;
+use Spatie\Activitylog\Exceptions\CouldNotLogActivity;
 
 class ActivityLogger
 {
@@ -30,20 +30,23 @@ class ActivityLogger
     /** @var \Illuminate\Support\Collection */
     protected $properties;
 
+    /** @var string */
+    protected $authDriver;
+
     public function __construct(AuthManager $auth, Repository $config)
     {
         $this->auth = $auth;
 
         $this->properties = collect();
 
-        $authDriver = $config['laravel-activitylog']['default_auth_driver'] != null ?
+      $this->authDriver = $config['laravel-activitylog']['default_auth_driver'] != null ?
             $config['laravel-activitylog']['default_auth_driver'] :
             $auth->getDefaultDriver();
 
         if (starts_with(app()->version(), '5.1')) {
-            $this->causedBy = $auth->driver($authDriver)->user();
+            $this->causedBy = $auth->driver($this->authDriver)->user();
         } else {
-            $this->causedBy = $auth->guard($authDriver)->user();
+            $this->causedBy = $auth->guard($this->authDriver)->user();
         }
 
         $this->logName = $config['laravel-activitylog']['default_log_name'];
@@ -174,8 +177,14 @@ class ActivityLogger
             return $modelOrId;
         }
 
-        if ($model = $this->auth->getProvider()->retrieveById($modelOrId)) {
-            return $model;
+        if (starts_with(app()->version(), '5.1')) {
+          $model = $this->auth->driver($this->authDriver)->getProvider()->retrieveById($modelOrId);
+        } else {
+          $model = $this->auth->guard($this->authDriver)->getProvider()->retrieveById($modelOrId);
+        }
+
+        if ($model) {
+          return $model;
         }
 
         throw CouldNotLogActivity::couldNotDetermineUser($modelOrId);
@@ -200,6 +209,10 @@ class ActivityLogger
             $propertyName = substr($match, strpos($match, '.') + 1);
 
             $attributeValue = $activity->$attribute;
+
+            if (is_null($attributeValue)) {
+              return $match;
+            }
 
             $attributeValue = $attributeValue->toArray();
 
